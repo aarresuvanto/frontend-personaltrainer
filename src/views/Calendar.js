@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Calendar = () => {
+const Calendar = ({ setActivePage }) => {
     return (
         <div>
-            
+            <h4>Calendar</h4>
         </div>
     )
 }

@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Trainings = () => {
+const Trainings = ({ setActivePage }) => {
     return (
         <div>
-            
+            <h4>Trainings</h4>
         </div>
     )
 }

@@ -1,9 +1,13 @@
 import React from 'react'
 
-const Customers = () => {
+const Customers = ({ activePage, setActivePage }) => {
+    const textStyle = {
+        textAlign: 'center'
+    }
+
     return (
         <div>
-            
+            <h4 style={textStyle}>Customers</h4>
         </div>
     )
 }
