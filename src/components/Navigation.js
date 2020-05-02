@@ -22,7 +22,7 @@ import SportsIcon from '@material-ui/icons/Sports'
 import CustomerIcon from '@material-ui/icons/Person'
 
 
-const Sidebar = () => {
+const Navigation = () => {
     const pageHeadlines = [ "Customers", "Trainings", "Calendar" ]
     const [ activeIcon, setActiveIcon ] = useState(<CustomerIcon />)
 
@@ -110,4 +110,4 @@ const Sidebar = () => {
     )
 }
 
-export default Sidebar
+export default Navigation
