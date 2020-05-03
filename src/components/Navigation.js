@@ -21,9 +21,8 @@ import CalendarIcon from '@material-ui/icons/CalendarToday'
 import SportsIcon from '@material-ui/icons/Sports'
 import CustomerIcon from '@material-ui/icons/Person'
 
-
 const Navigation = () => {
-    const pageHeadlines = [ "Customers", "Trainings", "Calendar" ]
+    const pageHeadlines = [ "Customers", "Trainings" ]
     const [ activeIcon, setActiveIcon ] = useState(<CustomerIcon />)
 
     const toggleActiveIcon = (headline) => {
@@ -63,8 +62,8 @@ const Navigation = () => {
       },
       link: {
           textDecoration: 'none',
-          color: 'black'
-      }
+          color: 'black',
+      },
     }));
 
     const classes = useStyles();
@@ -88,9 +87,9 @@ const Navigation = () => {
                     <Divider />
                     <List>
                         {pageHeadlines.map((headline, i) => (
-                            <Link className={classes.link} to={`/${headline.toLowerCase()}`}>
-                                <ListItem key={i} onClick={() => {toggleActiveIcon(headline)}} button>
-                                    <ListItemText className={classes.link}>{headline}</ListItemText>
+                            <Link key={i} className={classes.link} to={`/${headline.toLowerCase()}`}>
+                                <ListItem onClick={() => {toggleActiveIcon(headline)}} button>
+                                    <ListItemText>{headline}</ListItemText>
                                 </ListItem>
                             </Link>
                         ))}
@@ -102,7 +101,6 @@ const Navigation = () => {
                         <Route exact path="/" component={Customers} />
                         <Route path="/customers" component={Customers} />
                         <Route path="/trainings" component={Trainings} />
-                        <Route path="/calendar" component={Calendar} />
                     </Switch>
                 </main>
             </div>
