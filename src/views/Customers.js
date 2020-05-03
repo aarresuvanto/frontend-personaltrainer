@@ -42,11 +42,15 @@ const Customers = ({ activePage, setActivePage }) => {
             })
             
     }, [])
-    
+
+    const tableStyle = {
+        dropShadow: 'none'
+    }
 
     if(customers) {
         return (
             <MaterialTable
+            style={tableStyle}
             title="Customers"
             columns={tableData.columns}
             data={tableData.data}
@@ -91,7 +95,9 @@ const Customers = ({ activePage, setActivePage }) => {
         )
     } else {
         return (
-            <div></div>
+            <div>
+                <h4 style={{ marginTop: 150 }}>:)</h4>
+            </div>
         )
     }
 
