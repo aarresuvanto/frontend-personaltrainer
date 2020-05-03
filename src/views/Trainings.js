@@ -71,7 +71,7 @@ const Trainings = ({ setActivePage }) => {
                 new Promise((resolve) => {
                   setTimeout(() => {
                     resolve();
-                    setTrainings((prevState) => {
+                    setTableData((prevState) => {
                       const data = [...prevState.data];
                       data.splice(data.indexOf(oldData), 1);
                       return { ...prevState, data };

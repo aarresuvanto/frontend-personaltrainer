@@ -10,7 +10,7 @@ const Customers = ({ activePage, setActivePage }) => {
             { title: 'Lastname', field: 'lastname' },
             { title: 'Email', field: 'email' },
             { title: 'Phone', field: 'phone' },
-            { title: 'Address', field:'address' },
+            { title: 'Streetaddress', field:'streetaddress' },
             { title: 'Postcode', field: 'postcode' },
             { title: 'City', field: 'city' }
           ],
@@ -28,9 +28,10 @@ const Customers = ({ activePage, setActivePage }) => {
                             lastname: customer.lastname,
                             email: customer.email,
                             phone: customer.phone,
-                            address: customer.streetaddress,
+                            streetaddress: customer.streetaddress,
                             postcode: customer.postcode,
-                            city: customer.city
+                            city: customer.city,
+                            updateUrl: customer.links
                         }
                     )
                 })
@@ -43,55 +44,88 @@ const Customers = ({ activePage, setActivePage }) => {
             
     }, [])
 
-    const tableStyle = {
-        dropShadow: 'none'
+    const postCustomer = (newCustomerObject) => {
+        axios.post('https://customerrest.herokuapp.com/api/customers', newCustomerObject)
+            .then(res => {
+                console.log(res)
+                return res
+            })
+            .catch(err => {
+                console.error(err)
+            })
     }
+
+    const updateCustomer = (updatedCustomerObject, oldObject) => {
+        axios.put(oldObject.updateUrl[0].href, updatedCustomerObject)
+            .then(res => {
+                return res
+            })
+            .catch(err => {
+                console.error(err)
+            })
+    }
+
+    const deleteCustomer = (customerToDelete) => {
+        axios.delete(customerToDelete.updateUrl[0].href)
+            .then(res => {
+                return res
+            })
+            .catch(err => {
+                console.error(err)
+            })
+    }
+    
 
     if(customers) {
         return (
-            <MaterialTable
-            style={tableStyle}
-            title="Customers"
-            columns={tableData.columns}
-            data={tableData.data}
-            editable={{
-              onRowAdd: (newData) =>
-                new Promise((resolve) => {
-                  setTimeout(() => {
-                    resolve();
-                    setTableData((prevState) => {
-                      const data = [...prevState.data];
-                      data.push(newData);
-                      return { ...prevState, data };
-                    });
-                  }, 600);
-                }),
-              onRowUpdate: (newData, oldData) =>
-                new Promise((resolve) => {
-                  setTimeout(() => {
-                    resolve();
-                    if (oldData) {
-                      setTableData((prevState) => {
+            <div>
+                <MaterialTable
+                title="Customers"
+                columns={tableData.columns}
+                data={tableData.data}
+                editable={{
+                onRowAdd: (newData) =>
+                    new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve();
+                        setTableData((prevState) => {
                         const data = [...prevState.data];
-                        data[data.indexOf(oldData)] = newData;
+                        data.push(newData);
+                        let httpResponse = postCustomer(newData)
+                        console.log(httpResponse)
                         return { ...prevState, data };
-                      });
-                    }
-                  }, 600);
+                        });
+                    }, 600);
                 }),
-              onRowDelete: (oldData) =>
-                new Promise((resolve) => {
-                  setTimeout(() => {
-                    resolve();
-                    setCustomers((prevState) => {
-                      const data = [...prevState.data];
-                      data.splice(data.indexOf(oldData), 1);
-                      return { ...prevState, data };
-                    });
-                  }, 600);
-                }),
-            }}
-          />
+                onRowUpdate: (newData, oldData) =>
+                    new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve();
+                        if (oldData) {
+                        setTableData((prevState) => {
+                            const data = [...prevState.data];
+                            data[data.indexOf(oldData)] = newData;
+                            updateCustomer(newData, oldData)
+                            return { ...prevState, data };
+                        });
+                        }
+                    }, 600);
+                    }),
+                onRowDelete: (oldData) =>
+                    new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve();
+                        setTableData((prevState) => {
+                            const data = [...prevState.data]
+                            data.splice(data.indexOf(oldData), 1);
+                            deleteCustomer(oldData)
+                            return { ...prevState, data };
+                        });
+                    }, 600);
+                    }),
+                }}
+            />
+          </div>
         )
     } else {
         return (
