@@ -2,8 +2,13 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import MaterialTable from 'material-table';
 
+import NewTrainingFrom from '../components/NewTrainingForm'
+
 const Customers = ({ activePage, setActivePage }) => {
     const [customers, setCustomers] = useState()
+    const [ newTrainingFor, setNewTrainingFor ] = useState()
+    const [ open, setOpen ] = useState(false);
+    const [ currentRowData, setCurrentRowData ] = useState()
     const [tableData, setTableData] = useState({
         columns: [
             { title: 'Firstname', field: 'firstname' },
@@ -16,6 +21,14 @@ const Customers = ({ activePage, setActivePage }) => {
           ],
         data: [],
       });
+
+      const handleClickOpen = () => {
+          setOpen(true);
+        };
+      
+        const handleClose = () => {
+          setOpen(false);
+        };
 
     useEffect(() => {
         axios.get('https://customerrest.herokuapp.com/api/customers')
@@ -74,15 +87,28 @@ const Customers = ({ activePage, setActivePage }) => {
                 console.error(err)
             })
     }
-    
+
 
     if(customers) {
         return (
             <div>
+                <NewTrainingFrom currentRowData={currentRowData} open={open} setOpen={setOpen} handleClickOpen={handleClickOpen} handleClose={handleClose} customerName={newTrainingFor}/>
                 <MaterialTable
                 title="Customers"
                 columns={tableData.columns}
                 data={tableData.data}
+                actions={[
+                    {
+                        icon: 'add',
+                        tooltip: 'Add training',
+                        onClick: (event, rowData) => {
+                            let name = rowData.firstname + " " + rowData.lastname
+                            setNewTrainingFor(name)
+                            setCurrentRowData(rowData)
+                            handleClickOpen()
+                        }
+                    }
+                ]}
                 editable={{
                 onRowAdd: (newData) =>
                     new Promise((resolve) => {
@@ -130,7 +156,7 @@ const Customers = ({ activePage, setActivePage }) => {
     } else {
         return (
             <div>
-                <h4 style={{ marginTop: 150 }}>:)</h4>
+                <h4 style={{ marginTop: 150 }}>Loading</h4>
             </div>
         )
     }

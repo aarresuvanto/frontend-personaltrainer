@@ -8,22 +8,26 @@ const Trainings = ({ setActivePage }) => {
     const [tableData, setTableData] = useState({
         columns: [
             { title: 'Date', field: 'date' },
-            { title: 'Duration', field: 'duration' },
+            { title: 'Duration (min)', field: 'duration' },
             { title: 'Activity', field: 'activity' },
+            { title: 'Customer', field: 'customer' }
           ],
         data: [],
       });
 
       useEffect(() => {
-        axios.get('https://customerrest.herokuapp.com/api/trainings')
+        axios.get('https://customerrest.herokuapp.com/gettrainings')
             .then(response => {
-                const data = response.data.content
+                const data = response.data
+              
                 const trainingsObjects = data.map((training, i) => {
                     return (
                         {
                             date: moment(training.date).format('DD/MM/YYYY'),
                             duration: training.duration,
                             activity: training.activity,
+                            customer: training.customer.firstname + " " + training.customer.lastname,
+                            updateUrl: `https://customerrest.herokuapp.com/api/trainings/${training.id}`
                         }
                     )
                 })
@@ -36,6 +40,16 @@ const Trainings = ({ setActivePage }) => {
             
     }, [])
 
+    const deleteTraining = (trainingUrl) => {
+      axios.delete(trainingUrl)
+        .then(res => {
+          return res
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    }
+
     if(trainings) {
         return (
             <MaterialTable
@@ -43,37 +57,15 @@ const Trainings = ({ setActivePage }) => {
             columns={tableData.columns}
             data={tableData.data}
             editable={{
-              onRowAdd: (newData) =>
-                new Promise((resolve) => {
-                  setTimeout(() => {
-                    resolve();
-                    setTableData((prevState) => {
-                      const data = [...prevState.data];
-                      data.push(newData);
-                      return { ...prevState, data };
-                    });
-                  }, 600);
-                }),
-              onRowUpdate: (newData, oldData) =>
-                new Promise((resolve) => {
-                  setTimeout(() => {
-                    resolve();
-                    if (oldData) {
-                      setTableData((prevState) => {
-                        const data = [...prevState.data];
-                        data[data.indexOf(oldData)] = newData;
-                        return { ...prevState, data };
-                      });
-                    }
-                  }, 600);
-                }),
               onRowDelete: (oldData) =>
                 new Promise((resolve) => {
                   setTimeout(() => {
                     resolve();
                     setTableData((prevState) => {
                       const data = [...prevState.data];
-                      data.splice(data.indexOf(oldData), 1);
+                      let deletedObject = data.splice(data.indexOf(oldData), 1);
+                      console.log(deletedObject[0].updateUrl)
+                      deleteTraining(deletedObject[0].updateUrl)
                       return { ...prevState, data };
                     });
                   }, 600);
@@ -84,7 +76,7 @@ const Trainings = ({ setActivePage }) => {
     } else {
         return (
             <div>
-                <h4 style={{ marginTop: 150 }}>:)</h4>
+                <h4 style={{ marginTop: 150 }}>Loading</h4>
             </div>
         )
     }
