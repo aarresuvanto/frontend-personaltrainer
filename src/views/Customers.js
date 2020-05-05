@@ -4,7 +4,9 @@ import MaterialTable from 'material-table';
 
 import NewTrainingFrom from '../components/NewTrainingForm'
 
-const Customers = ({ activePage, setActivePage }) => {
+import CustomerIcon from '@material-ui/icons/Person'
+
+const Customers = ({ setActiveIcon }) => {
     const [customers, setCustomers] = useState()
     const [ newTrainingFor, setNewTrainingFor ] = useState()
     const [ open, setOpen ] = useState(false);
@@ -31,6 +33,8 @@ const Customers = ({ activePage, setActivePage }) => {
         };
 
     useEffect(() => {
+        setActiveIcon(<CustomerIcon />)
+
         axios.get('https://customerrest.herokuapp.com/api/customers')
             .then(response => {
                 const data = response.data.content
@@ -117,8 +121,7 @@ const Customers = ({ activePage, setActivePage }) => {
                         setTableData((prevState) => {
                         const data = [...prevState.data];
                         data.push(newData);
-                        let httpResponse = postCustomer(newData)
-                        console.log(httpResponse)
+                        postCustomer(newData)
                         return { ...prevState, data };
                         });
                     }, 600);
@@ -156,7 +159,7 @@ const Customers = ({ activePage, setActivePage }) => {
     } else {
         return (
             <div>
-                <h4 style={{ marginTop: 150 }}>Loading</h4>
+                <h4 style={{ marginTop: 150, fontWeight: 400 }}>Loading</h4>
             </div>
         )
     }

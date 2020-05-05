@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import Customers from '../views/Customers'
 import Trainings from '../views/Trainings'
 import Calendar from '../views/Calendar'
+import PageNotFound from '../views/PageNotFound'
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -22,8 +23,8 @@ import SportsIcon from '@material-ui/icons/Sports'
 import CustomerIcon from '@material-ui/icons/Person'
 
 const Navigation = () => {
-    const pageHeadlines = [ "Customers", "Trainings" ]
-    const [ activeIcon, setActiveIcon ] = useState(<CustomerIcon />)
+    const pageHeadlines = [ "Customers", "Trainings", "Calendar" ]
+    const [ activeIcon, setActiveIcon ] = useState()
 
     const toggleActiveIcon = (headline) => {
         if(headline === 'Customers') {
@@ -68,6 +69,7 @@ const Navigation = () => {
 
     const classes = useStyles();
 
+
     return (
         <Router>
             <div className={classes.root}>
@@ -98,9 +100,11 @@ const Navigation = () => {
                 <main className={classes.content}>
                     <div className={classes.toolbar} />
                     <Switch>
-                        <Route exact path="/" component={Customers} />
-                        <Route path="/customers" component={Customers} />
-                        <Route path="/trainings" component={Trainings} />
+                        <Route exact path="/" render={(props) => <Customers {...props} setActiveIcon={setActiveIcon}/>} />
+                        <Route path="/customers" render={(props) => <Customers {...props} setActiveIcon={setActiveIcon}/>} />
+                        <Route path="/trainings" render={(props) => <Trainings {...props} setActiveIcon={setActiveIcon}/>} />
+                        <Route path="/calendar" render={(props) => <Calendar {...props} setActiveIcon={setActiveIcon}/>}/>
+                        <Route render={(props) => <PageNotFound {...props} setActiveIcon={setActiveIcon}/>}/>
                     </Switch>
                 </main>
             </div>

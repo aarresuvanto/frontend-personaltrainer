@@ -3,7 +3,9 @@ import MaterialTable from 'material-table';
 import axios from 'axios'
 import moment from 'moment'
 
-const Trainings = ({ setActivePage }) => {
+import SportsIcon from '@material-ui/icons/Sports'
+
+const Trainings = ({ setActiveIcon }) => {
     const [ trainings, setTrainings ] = useState()
     const [tableData, setTableData] = useState({
         columns: [
@@ -16,6 +18,8 @@ const Trainings = ({ setActivePage }) => {
       });
 
       useEffect(() => {
+        setActiveIcon(<SportsIcon />)
+
         axios.get('https://customerrest.herokuapp.com/gettrainings')
             .then(response => {
                 const data = response.data
@@ -76,7 +80,7 @@ const Trainings = ({ setActivePage }) => {
     } else {
         return (
             <div>
-                <h4 style={{ marginTop: 150 }}>Loading</h4>
+                <h4 style={{ marginTop: 150, fontWeight: 400 }}>Loading</h4>
             </div>
         )
     }
