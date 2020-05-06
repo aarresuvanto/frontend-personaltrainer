@@ -71,30 +71,31 @@ const Customers = ({ setActiveIcon }) => {
             .then(res => {
                 return res
             })
-            .catch(err => {
-                console.error(err)
-            })
-
-        axios.get('https://customerrest.herokuapp.com/api/customers')
-            .then(response => {
-                const data = response.data.content
-                const customerObjects = data.map((customer, i) => {
-                    return (
-                        {
-                            firstname: customer.firstname,
-                            lastname: customer.lastname,
-                            email: customer.email,
-                            phone: customer.phone,
-                            streetaddress: customer.streetaddress,
-                            postcode: customer.postcode,
-                            city: customer.city,
-                            updateUrl: customer.links
-                        }
-                    )
+            .then(
+                axios.get('https://customerrest.herokuapp.com/api/customers')
+                .then(response => {
+                    const data = response.data.content
+                    const customerObjects = data.map((customer, i) => {
+                        return (
+                            {
+                                firstname: customer.firstname,
+                                lastname: customer.lastname,
+                                email: customer.email,
+                                phone: customer.phone,
+                                streetaddress: customer.streetaddress,
+                                postcode: customer.postcode,
+                                city: customer.city,
+                                updateUrl: customer.links
+                            }
+                        )
+                    })
+                    setCustomers(data)
+                    setTableData({...tableData, data: customerObjects})
                 })
-                setCustomers(data)
-                setTableData({...tableData, data: customerObjects})
-            })
+                .catch(err => {
+                    console.error(err)
+                })
+            )
             .catch(err => {
                 console.error(err)
             })
