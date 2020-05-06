@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import MaterialTable from 'material-table';
+import moment from 'moment'
+
 
 import NewTrainingFrom from '../components/NewTrainingForm'
 
@@ -9,7 +11,8 @@ import CustomerIcon from '@material-ui/icons/Person'
 const Customers = ({ setActiveIcon }) => {
     document.title = 'Customers'
 
-    const [customers, setCustomers] = useState()
+    const [ customers, setCustomers ] = useState()
+    const [ currentDate, setCurrentDate ] = useState()
     const [ newTrainingFor, setNewTrainingFor ] = useState()
     const [ open, setOpen ] = useState(false);
     const [ currentRowData, setCurrentRowData ] = useState()
@@ -66,12 +69,37 @@ const Customers = ({ setActiveIcon }) => {
     const postCustomer = (newCustomerObject) => {
         axios.post('https://customerrest.herokuapp.com/api/customers', newCustomerObject)
             .then(res => {
-                console.log(res)
                 return res
             })
             .catch(err => {
                 console.error(err)
             })
+
+            axios.get('https://customerrest.herokuapp.com/api/customers')
+            .then(response => {
+                const data = response.data.content
+                const customerObjects = data.map((customer, i) => {
+                    return (
+                        {
+                            firstname: customer.firstname,
+                            lastname: customer.lastname,
+                            email: customer.email,
+                            phone: customer.phone,
+                            streetaddress: customer.streetaddress,
+                            postcode: customer.postcode,
+                            city: customer.city,
+                            updateUrl: customer.links
+                        }
+                    )
+                })
+                setCustomers(data)
+                setTableData({...tableData, data: customerObjects})
+            })
+            .catch(err => {
+                console.error(err)
+            })
+
+            console.log(tableData)
     }
 
     const updateCustomer = (updatedCustomerObject, oldObject) => {
@@ -94,11 +122,19 @@ const Customers = ({ setActiveIcon }) => {
             })
     }
 
+    const getToday = () => {
+        let today = moment()
+        today = today._d
+        today = moment(today).format('YYYY-MM-DDTHH:mm')
+        setCurrentDate(today)
+    }
+
 
     if(customers) {
         return (
             <div>
-                <NewTrainingFrom currentRowData={currentRowData} open={open} setOpen={setOpen} handleClickOpen={handleClickOpen} handleClose={handleClose} customerName={newTrainingFor}/>
+                <NewTrainingFrom currentRowData={currentRowData} currentDate={currentDate}
+                open={open} setOpen={setOpen} handleClickOpen={handleClickOpen} handleClose={handleClose} customerName={newTrainingFor}/>
                 <MaterialTable
                 title="Customers"
                 columns={tableData.columns}
@@ -111,6 +147,7 @@ const Customers = ({ setActiveIcon }) => {
                             let name = rowData.firstname + " " + rowData.lastname
                             setNewTrainingFor(name)
                             setCurrentRowData(rowData)
+                            getToday()
                             handleClickOpen()
                         }
                     }

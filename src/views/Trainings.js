@@ -70,7 +70,6 @@ const Trainings = ({ setActiveIcon }) => {
                     setTableData((prevState) => {
                       const data = [...prevState.data];
                       let deletedObject = data.splice(data.indexOf(oldData), 1);
-                      console.log(deletedObject[0].updateUrl)
                       deleteTraining(deletedObject[0].updateUrl)
                       return { ...prevState, data };
                     });

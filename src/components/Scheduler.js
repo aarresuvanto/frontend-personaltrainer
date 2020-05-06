@@ -47,16 +47,24 @@ const Scheduler = () => {
             })
     }, [])
 
-    return (
-        <div style={{ width: '100%' }}>
-            <Calendar
-                events={events}
-                localizer={localizer}
-                defaultView='month'
-                style={{ height: '80vh' }}
-            />
-        </div>
-    )
+    if(events.length === 0 ) {
+        return (
+            <div>
+                <h4 style={{ marginTop: 150, fontWeight: 400 }}>Loading</h4>
+            </div>
+        )
+    } else {
+        return (
+            <div style={{ width: '100%' }}>
+                <Calendar
+                    events={events}
+                    localizer={localizer}
+                    defaultView='month'
+                    style={{ height: '80vh' }}
+                />
+            </div>
+        )
+    }
 }
 
 export default Scheduler

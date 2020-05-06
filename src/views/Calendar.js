@@ -4,7 +4,7 @@ import CalendarIcon from '@material-ui/icons/CalendarToday'
 
 import Scheduler from '../components/Scheduler'
 
-const Calendar = ({ setActiveIcon, myEventsList }) => {
+const Calendar = ({ setActiveIcon }) => {
     document.title = 'Calendar'
 
     useEffect(() => {

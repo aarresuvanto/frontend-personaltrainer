@@ -10,7 +10,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-const NewTrainingForm = ({ customerName, open, handleClose, currentRowData }) => {
+const NewTrainingForm = ({ customerName, open, handleClose, currentRowData, currentDate }) => {
     const [ date, setDate ] = useState()
     const [ activityType, setActivityType ] = useState()
     const [ duration, setDuration ] = useState()
@@ -24,6 +24,7 @@ const NewTrainingForm = ({ customerName, open, handleClose, currentRowData }) =
             duration: duration,
             customer: currentRowData.updateUrl[0].href,
         }
+
 
         axios.post('https://customerrest.herokuapp.com/api/trainings', newTraining)
             .then(res => {
@@ -41,12 +42,16 @@ const NewTrainingForm = ({ customerName, open, handleClose, currentRowData }) =
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">New Training for {customerName}</DialogTitle>
                 <DialogContent>
-                    <TextField 
-                    onChange={(e) => setDate(e.target.value)}
-                    margin="dense"
-                    id="date"
-                    type="date"
-                    fullWidth
+                    <TextField
+                        onChange={(e) => setDate(e.target.value)}
+                        id="date"
+                        label="Date and time"
+                        type="datetime-local"
+                        defaultValue={currentDate}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        fullWidth
                     />
                     <TextField
                     onChange={(e) => setActivityType(e.target.value)}
