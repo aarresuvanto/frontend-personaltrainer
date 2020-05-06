@@ -7,6 +7,8 @@ import NewTrainingFrom from '../components/NewTrainingForm'
 import CustomerIcon from '@material-ui/icons/Person'
 
 const Customers = ({ setActiveIcon }) => {
+    document.title = 'Customers'
+
     const [customers, setCustomers] = useState()
     const [ newTrainingFor, setNewTrainingFor ] = useState()
     const [ open, setOpen ] = useState(false);

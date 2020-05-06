@@ -6,6 +6,8 @@ import moment from 'moment'
 import SportsIcon from '@material-ui/icons/Sports'
 
 const Trainings = ({ setActiveIcon }) => {
+    document.title = 'Trainings'
+
     const [ trainings, setTrainings ] = useState()
     const [tableData, setTableData] = useState({
         columns: [
@@ -27,7 +29,7 @@ const Trainings = ({ setActiveIcon }) => {
                 const trainingsObjects = data.map((training, i) => {
                     return (
                         {
-                            date: moment(training.date).format('DD/MM/YYYY'),
+                            date: moment(training.date).format('DD/MM/YYYY, HH:MM'),
                             duration: training.duration,
                             activity: training.activity,
                             customer: training.customer.firstname + " " + training.customer.lastname,

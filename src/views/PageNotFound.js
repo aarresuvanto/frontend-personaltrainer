@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import ErrorIcon from '@material-ui/icons/ErrorOutline'
 
 const PageNotFound = ({ setActiveIcon }) => {
+    document.title = 'Not found...'
 
     useEffect(() => {
         setActiveIcon(<ErrorIcon />)
