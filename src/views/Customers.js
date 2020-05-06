@@ -75,7 +75,7 @@ const Customers = ({ setActiveIcon }) => {
                 console.error(err)
             })
 
-            axios.get('https://customerrest.herokuapp.com/api/customers')
+        axios.get('https://customerrest.herokuapp.com/api/customers')
             .then(response => {
                 const data = response.data.content
                 const customerObjects = data.map((customer, i) => {
