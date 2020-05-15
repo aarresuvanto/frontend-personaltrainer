@@ -6,6 +6,7 @@ import moment from 'moment'
 import SportsIcon from '@material-ui/icons/Sports'
 
 // Material table component built from boilerplate code from material ui site
+// https://material-ui.com/components/tables/
 
 const Trainings = ({ setActiveIcon }) => {
     document.title = 'Trainings'

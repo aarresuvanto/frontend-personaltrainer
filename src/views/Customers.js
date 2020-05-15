@@ -3,12 +3,12 @@ import axios from 'axios'
 import MaterialTable from 'material-table';
 import moment from 'moment'
 
-
 import NewTrainingFrom from '../components/NewTrainingForm'
 
 import CustomerIcon from '@material-ui/icons/Person'
 
 // Material table component built from boilerplate code from material ui site
+// https://material-ui.com/components/tables/
 
 const Customers = ({ setActiveIcon }) => {
     document.title = 'Customers'
