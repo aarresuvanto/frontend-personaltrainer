@@ -8,6 +8,8 @@ import NewTrainingFrom from '../components/NewTrainingForm'
 
 import CustomerIcon from '@material-ui/icons/Person'
 
+// Material table component built from boilerplate code from material ui site
+
 const Customers = ({ setActiveIcon }) => {
     document.title = 'Customers'
 
