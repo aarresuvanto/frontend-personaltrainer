@@ -3,6 +3,7 @@ Create new training events for users and see events listed in a calendar
 ### About
 - This project is the final project on React front end programming spring 2020. Project is bootstrapped with create-react-app
 - In this project I have used a 3rd party UI framework Material UI https://material-ui.com/getting-started/usage/
+- Table component used in the project is also a third party component 'Material-table' https://github.com/mbrn/material-table
 - The calendar is also a third party component 'React-big-calendar' https://github.com/jquense/react-big-calendar#readme
 ### Functionality
 - A new user can be created
